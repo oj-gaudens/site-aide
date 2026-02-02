@@ -1,0 +1,15 @@
+{
+  "name": "markdown-promax-11ty",
+  "version": "1.0.0",
+  "description": "Site Markdown PRO MAX avec Eleventy",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "keywords": ["eleventy", "markdown", "site"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

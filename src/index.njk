@@ -1,0 +1,78 @@
+---
+layout: base.njk
+title: Accueil
+siteTitle: Site d'Aide
+siteDescription: Créez vos sites, emails et slides rapidement, avec live preview et export facile.
+jsFile: script.js
+---
+
+<section class="intro">
+  <h2>Bienvenue sur <span>Markdown PRO MAX</span></h2>
+  <p>Écrivez votre Markdown à gauche et voyez le rendu live à droite.</p>
+
+  <label>
+    Choisir un template :
+    <select id="template-selector">
+      <option value="site">Site Web</option>
+      <option value="email">Email</option>
+      <option value="slides">Slides</option>
+    </select>
+  </label>
+</section>
+
+<section class="editor">
+  <textarea id="markdown-input">
+# Exemple Markdown
+
+## Bienvenue !
+
+Voici quelques exemples de syntaxe Markdown :
+
+### Listes
+- Premier élément
+- Deuxième élément
+- **Texte en gras**, *texte en italique*
+
+### Liens
+- [Google](https://google.com)
+- [GitHub](https://github.com)
+
+### Code
+```javascript
+console.log("Hello World!");
+```
+
+### Slides
+Pour créer des slides, séparez votre contenu avec `---`
+
+---
+
+# Slide 2
+Contenu de la deuxième slide
+
+---
+
+# Slide 3
+Contenu de la troisième slide
+  </textarea>
+
+  <div id="preview"></div>
+</section>
+
+<div class="toolbar">
+  <button id="copy-html">📋 Copier HTML</button>
+  <button id="copy-text">📄 Copier texte</button>
+  <button id="download-html">💾 Télécharger HTML</button>
+  <button id="export-pdf">📑 Exporter PDF</button>
+  <button id="clear-all">🗑️ Effacer</button>
+  <button id="fullscreen">⛶ Plein écran</button>
+
+  <select id="theme-selector">
+    <option value="theme-light">☀️ Clair</option>
+    <option value="theme-dark">🌙 Sombre</option>
+  </select>
+</div>
+
+<footer class="hint">
+  💡 Hover sur les encadrés bleus pour des aides inline selon le template.
+</footer>
