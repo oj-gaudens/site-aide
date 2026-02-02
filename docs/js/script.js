@@ -6,7 +6,380 @@ const theme = document.getElementById("theme-selector");
 
 let currentSlide = 0;
 
-// Render markdown based on selected template
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+
+// Générer un ID à partir d'un texte
+function generateId(text) {
+  return text.toLowerCase()
+    .replace(/[àâä]/g, 'a')
+    .replace(/[éèêë]/g, 'e')
+    .replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o')
+    .replace(/[ùûü]/g, 'u')
+    .replace(/ç/g, 'c')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+// Parser les options d'un composant
+function parseOptions(optionsText) {
+  const options = {};
+  if (!optionsText) return options;
+  
+  const lines = optionsText.trim().split('\n');
+  lines.forEach(line => {
+    const match = line.match(/^\s*(\w+):\s*(.+)$/);
+    if (match) {
+      const key = match[1].trim();
+      let value = match[2].trim();
+      
+      // Convertir les booléens
+      if (value === 'true') value = true;
+      else if (value === 'false') value = false;
+      
+      options[key] = value;
+    }
+  });
+  
+  return options;
+}
+
+// ============================================================================
+// COMPOSANTS DSFR
+// ============================================================================
+
+// Process ALERT components
+function processAlerts(md) {
+  const regex = /\/\/\/\s*alert\s*\|\s*([^\n]+)\n([\s\S]*?)\/\/\//g;
+  
+  return md.replace(regex, (match, header, body) => {
+    const parts = header.split('\n');
+    const title = parts[0].trim();
+    const optionsText = parts.slice(1).join('\n');
+    const options = parseOptions(optionsText);
+    
+    const content = body.trim();
+    const type = options.type || 'info';
+    const markup = options.markup || 'h5';
+    const id = generateId(title);
+    
+    return `<div class="fr-alert fr-alert--${type}">
+<${markup} class="fr-alert__title" id="${id}">${title}</${markup}>
+<p>${content}</p>
+</div>`;
+  });
+}
+
+// Process CALLOUT components
+function processCallouts(md) {
+  const regex = /\/\/\/\s*callout\s*\|\s*([^\n]+)\n([\s\S]*?)\/\/\//g;
+  
+  return md.replace(regex, (match, header, body) => {
+    const parts = header.split('\n');
+    const title = parts[0].trim();
+    const optionsText = parts.slice(1).join('\n');
+    const options = parseOptions(optionsText);
+    
+    const content = body.trim();
+    const markup = options.markup || 'p';
+    const color = options.color || '';
+    const icon = options.icon || '';
+    const linkLabel = options.link_label || '';
+    const linkUrl = options.link_url || '';
+    const linkNewTab = options.link_newtab || false;
+    
+    let colorClass = color ? `fr-callout--${color}` : '';
+    let iconHtml = icon ? `<span class="fr-icon-${icon}" aria-hidden="true"></span>` : '';
+    let linkHtml = '';
+    
+    if (linkLabel && linkUrl) {
+      const target = linkNewTab ? ' target="_blank" rel="noopener"' : '';
+      linkHtml = `<a class="fr-btn" href="${linkUrl}"${target}>${linkLabel}</a>`;
+    }
+    
+    return `<div class="fr-callout ${colorClass}">
+<${markup} class="fr-callout__title">${iconHtml}${title}</${markup}>
+<p class="fr-callout__text">${content}</p>
+${linkHtml}
+</div>`;
+  });
+}
+
+// Process ACCORDION components
+function processAccordions(md) {
+  const regex = /\/\/\/\s*accordion\s*\|\s*([^\n]+)\n([\s\S]*?)\/\/\//g;
+  let accordionId = 0;
+  
+  return md.replace(regex, (match, header, body) => {
+    accordionId++;
+    const parts = header.split('\n');
+    const title = parts[0].trim();
+    const optionsText = parts.slice(1).join('\n');
+    const options = parseOptions(optionsText);
+    
+    const content = body.trim();
+    const isOpen = options.open || false;
+    const collapseClass = isOpen ? '' : ' fr-collapse--collapsed';
+    
+    return `<section class="fr-accordion">
+<h3 class="fr-accordion__title">
+<button class="fr-accordion__btn" aria-expanded="${isOpen}" aria-controls="accordion-${accordionId}">${title}</button>
+</h3>
+<div class="fr-collapse${collapseClass}" id="accordion-${accordionId}">
+${content}
+</div>
+</section>`;
+  });
+}
+
+// Process BADGE components
+function processBadges(md) {
+  const regex = /\/\/\/\s*badge\s*\n([\s\S]*?)\/\/\//g;
+  
+  return md.replace(regex, (match, body) => {
+    const parts = body.trim().split('\n');
+    const optionsText = parts.slice(0, -1).join('\n');
+    const options = parseOptions(optionsText);
+    const text = parts[parts.length - 1].trim();
+    
+    const type = options.type || '';
+    const color = options.color || '';
+    const hasIcon = options.icon !== false;
+    
+    let badgeClass = 'fr-badge';
+    if (type) badgeClass += ` fr-badge--${type}`;
+    if (color) badgeClass += ` fr-badge--${color}`;
+    if (hasIcon && type) badgeClass += ' fr-badge--icon-left';
+    
+    return `<span class="${badgeClass}">${text}</span>`;
+  });
+}
+
+// Process CARD components
+function processCards(md) {
+  const regex = /\/\/\/\s*card\s*\|\s*([^\n]+)\n([\s\S]*?)\/\/\//g;
+  
+  return md.replace(regex, (match, header, body) => {
+    const parts = header.split('\n');
+    const title = parts[0].trim();
+    const optionsText = parts.slice(1).join('\n');
+    const options = parseOptions(optionsText);
+    const content = body.trim();
+    
+    const description = options.description || '';
+    const markup = options.markup || 'h5';
+    const image = options.image || '';
+    const imageAlt = options.image_alt || title;
+    const target = options.target || '';
+    const targetNew = options.target_new ? ' target="_blank" rel="noopener"' : '';
+    const enlarge = options.enlarge !== false;
+    const badge = options.badge || '';
+    const download = options.download || false;
+    const horizontal = options.horizontal || false;
+    const horizontalPos = options.horizontal_pos || '';
+    const variations = options.variations || '';
+    
+    let cardClasses = 'fr-card';
+    if (enlarge) cardClasses += ' fr-enlarge-link';
+    if (horizontal) cardClasses += ' fr-card--horizontal';
+    if (horizontalPos === 'tier') cardClasses += ' fr-card--horizontal-tier';
+    if (horizontalPos === 'half') cardClasses += ' fr-card--horizontal-half';
+    if (download) cardClasses += ' fr-card--download';
+    if (variations) cardClasses += ` ${variations.split(',').map(v => `fr-card--${v.trim()}`).join(' ')}`;
+    
+    let imageHtml = '';
+    if (image) {
+      imageHtml = `<div class="fr-card__header">
+<div class="fr-card__img">
+<img src="${image}" class="fr-responsive-img" alt="${imageAlt}">
+</div>
+</div>`;
+    }
+    
+    let badgeHtml = '';
+    if (badge) {
+      const badgeParts = badge.split('|').map(b => b.trim());
+      const badgeText = badgeParts[0];
+      const badgeColor = badgeParts[1] || 'info';
+      badgeHtml = `<p class="fr-badge fr-badge--${badgeColor}">${badgeText}</p>`;
+    }
+    
+    let descriptionHtml = '';
+    if (description) {
+      descriptionHtml = `<p class="fr-card__desc">${description}</p>`;
+    }
+    
+    let detailHtml = '';
+    if (download && options.assess) {
+      detailHtml = `<p class="fr-card__detail">Fichier à télécharger</p>`;
+    }
+    
+    return `<div class="${cardClasses}">
+${imageHtml}
+<div class="fr-card__body">
+<div class="fr-card__content">
+<${markup} class="fr-card__title">
+<a href="${target}"${targetNew}>${title}</a>
+</${markup}>
+${descriptionHtml}
+<p class="fr-card__desc">${content}</p>
+${detailHtml}
+</div>
+<div class="fr-card__footer">
+${badgeHtml}
+</div>
+</div>
+</div>`;
+  });
+}
+
+// Process TILE components
+function processTiles(md) {
+  const regex = /\/\/\/\s*tile\s*\|\s*([^\n]+)\n([\s\S]*?)\/\/\//g;
+  
+  return md.replace(regex, (match, header, body) => {
+    const parts = header.split('\n');
+    const title = parts[0].trim();
+    const optionsText = parts.slice(1).join('\n');
+    const options = parseOptions(optionsText);
+    const content = body.trim();
+    
+    const description = options.description || '';
+    const markup = options.markup || 'h5';
+    const picto = options.picto || '';
+    const target = options.target || '';
+    const targetNew = options.target_new ? ' target="_blank" rel="noopener"' : '';
+    const enlarge = options.enlarge !== false;
+    const badge = options.badge || '';
+    const download = options.download || false;
+    const horizontal = options.horizontal || false;
+    const variations = options.variations || '';
+    
+    let tileClasses = 'fr-tile';
+    if (enlarge) tileClasses += ' fr-enlarge-link';
+    if (horizontal) tileClasses += ' fr-tile--horizontal';
+    if (download) tileClasses += ' fr-tile--download';
+    if (variations) tileClasses += ` ${variations.split(',').map(v => `fr-tile--${v.trim()}`).join(' ')}`;
+    
+    let pictoHtml = '';
+    if (picto) {
+      pictoHtml = `<div class="fr-tile__header">
+<div class="fr-tile__pictogram">
+<svg aria-hidden="true" class="fr-artwork" viewBox="0 0 80 80" width="80px" height="80px">
+<use class="fr-artwork-decorative" href="/artwork/pictograms/${picto}.svg#artwork-decorative"></use>
+<use class="fr-artwork-minor" href="/artwork/pictograms/${picto}.svg#artwork-minor"></use>
+<use class="fr-artwork-major" href="/artwork/pictograms/${picto}.svg#artwork-major"></use>
+</svg>
+</div>
+</div>`;
+    }
+    
+    let badgeHtml = '';
+    if (badge) {
+      const badgeParts = badge.split('|').map(b => b.trim());
+      const badgeText = badgeParts[0];
+      const badgeColor = badgeParts[1] || 'info';
+      badgeHtml = `<p class="fr-badge fr-badge--${badgeColor}">${badgeText}</p>`;
+    }
+    
+    let descriptionHtml = '';
+    if (description) {
+      descriptionHtml = `<p class="fr-tile__desc">${description}</p>`;
+    }
+    
+    let detailText = content || '';
+    if (download && options.assess) {
+      detailText = 'Fichier à télécharger';
+    }
+    
+    return `<div class="${tileClasses}">
+<div class="fr-tile__body">
+<div class="fr-tile__content">
+<${markup} class="fr-tile__title">
+<a href="${target}"${targetNew}>${title}</a>
+</${markup}>
+${descriptionHtml}
+<p class="fr-tile__detail">${detailText}</p>
+</div>
+</div>
+${pictoHtml}
+${badgeHtml}
+</div>`;
+  });
+}
+
+// Process ROW/COL components (grid system)
+function processGrid(md) {
+  // D'abord, traiter les colonnes
+  const colRegex = /\/\/\/\s*col(?:\s*\|\s*([^\n]+))?\n([\s\S]*?)\/\/\//g;
+  let processedMd = md.replace(colRegex, (match, classes, content) => {
+    const colClasses = classes ? classes.trim().split(/\s+/).map(c => `fr-col-${c}`).join(' ') : 'fr-col';
+    return `<div class="${colClasses}">
+${content.trim()}
+</div>`;
+  });
+  
+  // Ensuite, traiter les lignes
+  const rowRegex = /\/\/\/\s*row(?:\s*\|\s*([^\n]+))?\n([\s\S]*?)\/\/\//g;
+  processedMd = processedMd.replace(rowRegex, (match, header, content) => {
+    let rowClasses = 'fr-grid-row';
+    let options = {};
+    
+    if (header) {
+      const parts = header.split('\n');
+      const firstLine = parts[0].trim();
+      
+      // Si la première ligne contient des classes CSS
+      if (firstLine && !firstLine.includes(':')) {
+        rowClasses += ` ${firstLine}`;
+      }
+      
+      // Parser les options
+      const optionsText = parts.slice(1).join('\n');
+      options = parseOptions(optionsText);
+    }
+    
+    if (options.halign) rowClasses += ` fr-grid-row--${options.halign}`;
+    if (options.valign) rowClasses += ` fr-grid-row--${options.valign}`;
+    
+    return `<div class="${rowClasses}">
+${content.trim()}
+</div>`;
+  });
+  
+  return processedMd;
+}
+
+// ============================================================================
+// MAIN PROCESSING FUNCTION
+// ============================================================================
+
+function processAllComponents(md) {
+  // Ordre important : traiter les composants imbriqués d'abord
+  let processed = md;
+  
+  // 1. Traiter les cartes et tuiles (avant la grille)
+  processed = processCards(processed);
+  processed = processTiles(processed);
+  
+  // 2. Traiter la grille (qui contient les cartes/tuiles)
+  processed = processGrid(processed);
+  
+  // 3. Traiter les autres composants
+  processed = processAlerts(processed);
+  processed = processCallouts(processed);
+  processed = processAccordions(processed);
+  processed = processBadges(processed);
+  
+  return processed;
+}
+
+// ============================================================================
+// RENDER FUNCTIONS
+// ============================================================================
+
 function render() {
   const md = textarea.value;
 
@@ -17,12 +390,13 @@ function render() {
   }
 }
 
-// Render normal mode (site/email)
 function renderNormal(md) {
-  preview.innerHTML = marked.parse(md);
+  // Traiter tous les composants DSFR
+  const processedMd = processAllComponents(md);
+  // Ensuite parser le markdown restant
+  preview.innerHTML = marked.parse(processedMd);
 }
 
-// Render slides mode
 function renderSlides(md) {
   const slides = md.split("---").map(s => s.trim()).filter(Boolean);
   preview.innerHTML = "";
@@ -30,7 +404,9 @@ function renderSlides(md) {
   slides.forEach((slideContent, index) => {
     const div = document.createElement("div");
     div.className = "slide" + (index === currentSlide ? " current" : "");
-    div.innerHTML = marked.parse(slideContent);
+    // Traiter les composants dans chaque slide
+    const processedContent = processAllComponents(slideContent);
+    div.innerHTML = marked.parse(processedContent);
     div.addEventListener("click", () => {
       currentSlide = index;
       updateSlides();
@@ -39,7 +415,6 @@ function renderSlides(md) {
   });
 }
 
-// Update slides current state
 function updateSlides() {
   const slides = document.querySelectorAll(".slide");
   slides.forEach((slide, index) => {
@@ -47,7 +422,10 @@ function updateSlides() {
   });
 }
 
-// Event listeners
+// ============================================================================
+// EVENT LISTENERS
+// ============================================================================
+
 textarea.addEventListener("input", render);
 
 template.addEventListener("change", () => {
@@ -82,31 +460,27 @@ document.getElementById("download-html").onclick = () => {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Export Markdown PRO MAX</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@latest/dist/dsfr.min.css">
   <style>
     body {
-      font-family: 'Inter', Arial, sans-serif;
-      max-width: 900px;
+      font-family: 'Marianne', Arial, sans-serif;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 40px 20px;
       line-height: 1.6;
-      color: #1e293b;
     }
-    h1 { color: #4f6edb; border-bottom: 3px solid #4f6edb; padding-bottom: 10px; }
-    a { color: #4f6edb; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; }
-    pre { background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 8px; overflow-x: auto; }
   </style>
 </head>
 <body>
 ${preview.innerHTML}
+<script src="https://cdn.jsdelivr.net/npm/@gouvfr/dsfr@latest/dist/dsfr.min.js"></script>
 </body>
 </html>`;
 
   const blob = new Blob([html], { type: "text/html;charset=utf-8" });
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "export-markdown.html";
+  a.download = "export-markdown-dsfr.html";
   a.click();
   showNotification("Fichier téléchargé !");
 };
@@ -212,7 +586,7 @@ if (savedTheme) {
   theme.value = savedTheme;
 }
 
-// Load saved content (optional)
+// Load saved content
 const savedContent = localStorage.getItem("markdown-content");
 if (savedContent) {
   textarea.value = savedContent;

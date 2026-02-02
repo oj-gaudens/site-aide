@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Créez vos sites, emails et slides rapidement avec Markdown PRO MAX">
   
-  <link rel="stylesheet" href="/assets/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
@@ -35,38 +35,130 @@
 
 <section class="editor">
   <textarea id="markdown-input">
-# Exemple Markdown
+# Démo Composants DSFR
 
-## Bienvenue !
+Bienvenue dans l'éditeur Markdown PRO MAX avec support complet des composants DSFR !
 
-Voici quelques exemples de syntaxe Markdown :
+## Alertes
 
-### Listes
-- Premier élément
-- Deuxième élément
-- **Texte en gras**, *texte en italique*
+/// alert | Information
+    type: info
+Ceci est une alerte d'information avec du contenu **important**.
+///
 
-### Liens
-- [Google](https://google.com)
-- [GitHub](https://github.com)
+/// alert | Succès
+    type: success
+Opération réussie !
+///
 
-### Code
-```javascript
-console.log("Hello World!");
-```
+## Mise en avant
 
-### Slides
-Pour créer des slides, séparez votre contenu avec `---`
+/// callout | Point clé
+    color: green-menthe
+    icon: info-line
+    markup: h3
+Utilisez les composants DSFR pour créer des interfaces professionnelles.
+///
+
+## Grille 3 colonnes
+
+/// row | fr-grid-row--gutters
+/// col | 12 lg-4
+/// card | Carte 1
+    image: https://via.placeholder.com/300x200
+    target: /page1
+    markup: h4
+Description de la première carte.
+///
+///
+
+/// col | 12 lg-4
+/// card | Carte 2
+    image: https://via.placeholder.com/300x200
+    target: /page2
+    badge: Nouveau | green-menthe
+    markup: h4
+Carte avec un badge.
+///
+///
+
+/// col | 12 lg-4
+/// card | Carte 3
+    image: https://via.placeholder.com/300x200
+    target: /page3
+    markup: h4
+Description de la troisième carte.
+///
+///
+///
+
+## Tuiles
+
+/// row | fr-grid-row--gutters
+/// col
+/// tile | Service 1
+    picto: digital/application
+    target: /service1
+    markup: h4
+Description du service 1.
+///
+///
+
+/// col
+/// tile | Service 2
+    picto: environment/leaf
+    target: /service2
+    badge: Populaire | yellow-tournesol
+    markup: h4
+Description du service 2.
+///
+///
+///
+
+## Accordéons
+
+/// accordion | Question 1
+Réponse à la première question avec du **texte** formaté.
+///
+
+/// accordion | Question 2 (ouverte)
+    open: true
+Cette réponse est visible par défaut.
+///
+
+## Badges
+
+/// badge
+    type: success
+    icon: true
+Validé
+///
+
+/// badge
+    color: green-menthe
+Nouveau
+///
+
+---
+
+# Pour les Slides
+
+Séparez vos slides avec `---`
 
 ---
 
 # Slide 2
-Contenu de la deuxième slide
+
+/// alert | Astuce
+    type: info
+Les composants DSFR fonctionnent aussi dans les slides !
+///
 
 ---
 
-# Slide 3
-Contenu de la troisième slide
+# Slide 3 - Fin
+
+Merci !
   </textarea>
 
   <div id="preview"></div>

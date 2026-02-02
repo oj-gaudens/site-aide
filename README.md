@@ -7,11 +7,20 @@ Un éditeur Markdown puissant avec prévisualisation en direct, construit avec E
 
 - ✏️ **Éditeur Markdown en temps réel** avec prévisualisation instantanée
 - 🎨 **3 modes** : Site Web, Email, Slides
+- 🏛️ **Composants DSFR complets** :
+  - 🚨 Alertes (info, success, warning, error)
+  - 📢 Callouts (mise en avant avec icônes et boutons)
+  - 📋 Accordéons
+  - 🏷️ Badges
+  - 🎴 Cards (cartes avec images, badges, modes horizontal/vertical)
+  - 🎯 Tiles (tuiles avec pictogrammes)
+  - 📐 Système de grille responsive (12 colonnes)
 - 🌓 **Thèmes** : Clair et Sombre
-- 📋 **Export** : Copier HTML, Télécharger HTML, Exporter en PDF
+- 📋 **Export** : Copier HTML, Télécharger HTML (avec DSFR), Exporter en PDF
 - ⌨️ **Navigation clavier** pour les slides (flèches, Home, End)
 - 💾 **Sauvegarde automatique** dans le localStorage
 - 📱 **Responsive** et adapté mobile
+- 📚 **Templates prédéfinis** pour email, slides et sites web
 
 ## 📦 Installation
 
@@ -62,6 +71,16 @@ markdown-promax-11ty/
 ├── package.json           # Dépendances npm
 └── README.md             # Ce fichier
 ```
+
+## 📚 Templates prédéfinis
+
+Le projet inclut des templates pour démarrer rapidement :
+
+- **`src/_includes/templates/site.md`** : Template complet pour un site web avec tous les composants
+- **`src/_includes/templates/email.md`** : Template optimisé pour les emails
+- **`src/_includes/templates/slide.md`** : Template pour créer des présentations
+
+Copiez le contenu d'un template dans l'éditeur pour commencer !
 
 ## 🎯 Utilisation
 
@@ -139,6 +158,83 @@ Modifiez `src/js/script.js` pour ajouter de nouveaux types de templates dans la 
 - Blocs de code (` ```langue `)
 - Citations (`> texte`)
 - Et plus encore !
+
+## 🏛️ Composants DSFR
+
+L'éditeur supporte tous les composants du Design System de l'État Français :
+
+### Alertes
+```
+/// alert | Titre
+    type: info
+Contenu de l'alerte
+///
+```
+
+Types : `info`, `success`, `warning`, `error`
+
+### Callouts (Mise en avant)
+```
+/// callout | Titre
+    color: green-menthe
+    icon: info-line
+    link_label: Bouton
+    link_url: /lien
+Contenu de la mise en avant
+///
+```
+
+### Accordéons
+```
+/// accordion | Question
+    open: true
+Réponse
+///
+```
+
+### Badges
+```
+/// badge
+    type: success
+    icon: true
+Validé
+///
+```
+
+### Grilles
+```
+/// row | fr-grid-row--gutters
+/// col | 12 lg-4
+Colonne 1
+///
+/// col | 12 lg-8
+Colonne 2
+///
+///
+```
+
+### Cartes
+```
+/// card | Titre
+    image: /img.png
+    target: /lien
+    badge: Nouveau | green-menthe
+    markup: h4
+Description
+///
+```
+
+### Tuiles
+```
+/// tile | Titre
+    picto: digital/application
+    target: /lien
+    markup: h4
+Description
+///
+```
+
+**📖 Documentation complète** : Consultez [DSFR_COMPONENTS.md](DSFR_COMPONENTS.md) pour tous les détails et exemples.
 
 ## 🚀 Déploiement
 
