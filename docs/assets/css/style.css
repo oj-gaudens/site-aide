@@ -1033,3 +1033,360 @@ select:hover {
   }
 }
 
+/* ========================================================================== */
+/* BARRE D'OUTILS DSFR ULTRA-COMPLÈTE */
+/* ========================================================================== */
+
+.intro {
+  padding: 30px 20px;
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.template-selector-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.template-selector-wrapper label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.label-icon {
+  font-size: 1.2rem;
+}
+
+.template-btn {
+  background: linear-gradient(135deg, #4f6edb 0%, #5b8cff 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(79, 110, 219, 0.3);
+}
+
+.template-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 110, 219, 0.4);
+}
+
+.btn-icon {
+  font-size: 1.1rem;
+}
+
+.dsfr-toolbar {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8edff 100%);
+  padding: 25px;
+  margin: 20px auto;
+  max-width: 1400px;
+  border-radius: 12px;
+  border: 2px solid #4f6edb;
+  box-shadow: 0 8px 24px rgba(79, 110, 219, 0.15);
+}
+
+.toolbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.toolbar-header h3 {
+  margin: 0;
+  color: #4f6edb;
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toolbar-icon {
+  font-size: 1.5rem;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.mini-btn {
+  background: #ffffff;
+  color: #4f6edb;
+  border: 2px solid #4f6edb;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.mini-btn:hover {
+  background: #4f6edb;
+  color: white;
+}
+
+.toolbar-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.toolbar-group {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.group-toggle {
+  background: linear-gradient(135deg, #4f6edb 0%, #3c56b5 100%);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(79, 110, 219, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.group-toggle:hover {
+  background: linear-gradient(135deg, #3c56b5 0%, #2d4494 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 110, 219, 0.4);
+}
+
+.group-toggle:active {
+  transform: translateY(0);
+}
+
+.group-buttons {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: white;
+  border: 2px solid #4f6edb;
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 280px;
+  max-width: 350px;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-buttons.hidden {
+  display: none;
+}
+
+.button-section {
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.button-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.button-section h4 {
+  margin: 0 0 8px 0;
+  color: #4f6edb;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.group-buttons button {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  color: #333;
+  border: 1px solid #dee2e6;
+  padding: 10px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.group-buttons button:hover {
+  background: linear-gradient(135deg, #4f6edb 0%, #5b8cff 100%);
+  color: white;
+  border-color: #4f6edb;
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(79, 110, 219, 0.3);
+}
+
+/* Scrollbar pour menus déroulants */
+.group-buttons::-webkit-scrollbar {
+  width: 8px;
+}
+
+.group-buttons::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.group-buttons::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.group-buttons::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark theme for toolbar */
+.theme-dark .intro {
+  color: #e5e7eb;
+}
+
+.theme-dark .dsfr-toolbar {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border-color: #3b82f6;
+}
+
+.theme-dark .toolbar-header h3 {
+  color: #60a5fa;
+}
+
+.theme-dark .mini-btn {
+  background: #334155;
+  color: #60a5fa;
+  border-color: #3b82f6;
+}
+
+.theme-dark .mini-btn:hover {
+  background: #3b82f6;
+  color: white;
+}
+
+.theme-dark .group-toggle {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.theme-dark .group-toggle:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.theme-dark .group-buttons {
+  background: #1e293b;
+  border-color: #3b82f6;
+}
+
+.theme-dark .button-section {
+  border-bottom-color: #475569;
+}
+
+.theme-dark .button-section h4 {
+  color: #60a5fa;
+}
+
+.theme-dark .group-buttons button {
+  background: linear-gradient(135deg, #334155 0%, #475569 100%);
+  color: #e5e7eb;
+  border-color: #475569;
+}
+
+.theme-dark .group-buttons button:hover {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border-color: #3b82f6;
+}
+
+.theme-dark .group-buttons::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.theme-dark .group-buttons::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+.theme-dark .group-buttons::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+.theme-dark .template-btn {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.theme-dark .template-selector-wrapper label {
+  color: #e5e7eb;
+}
+
+/* Responsive toolbar */
+@media (max-width: 1024px) {
+  .toolbar-groups {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .toolbar-groups {
+    grid-template-columns: 1fr;
+  }
+  
+  .toolbar-group {
+    width: 100%;
+  }
+  
+  .group-toggle {
+    width: 100%;
+  }
+  
+  .group-buttons {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-top: 5px;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .template-selector-wrapper {
+    flex-direction: column;
+  }
+  
+  .template-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

@@ -604,6 +604,395 @@ textarea.addEventListener("input", () => {
 // Initial render
 render();
 
+// ============================================================================
+// TOOLBAR COMPONENTS INSERTION
+// ============================================================================
+
+// Toggle dropdown menus
+document.querySelectorAll('.group-toggle').forEach(button => {
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const groupButtons = button.nextElementSibling;
+    
+    // Close all other dropdowns
+    document.querySelectorAll('.group-buttons').forEach(menu => {
+      if (menu !== groupButtons) {
+        menu.classList.add('hidden');
+      }
+    });
+    
+    // Toggle current dropdown
+    groupButtons.classList.toggle('hidden');
+  });
+});
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', () => {
+  document.querySelectorAll('.group-buttons').forEach(menu => {
+    menu.classList.add('hidden');
+  });
+});
+
+// Expand all dropdowns
+document.getElementById('expand-all')?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  document.querySelectorAll('.group-buttons').forEach(menu => {
+    menu.classList.remove('hidden');
+  });
+});
+
+// Collapse all dropdowns
+document.getElementById('collapse-all')?.addEventListener('click', (e) => {
+  e.stopPropagation();
+  document.querySelectorAll('.group-buttons').forEach(menu => {
+    menu.classList.add('hidden');
+  });
+});
+
+// Insert component when button is clicked
+document.querySelectorAll('[data-insert]').forEach(button => {
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const textToInsert = button.getAttribute('data-insert');
+    
+    // Get current cursor position
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const currentValue = textarea.value;
+    
+    // Insert text at cursor position
+    const newValue = currentValue.substring(0, start) + '\n\n' + textToInsert + '\n\n' + currentValue.substring(end);
+    textarea.value = newValue;
+    
+    // Set cursor position after inserted text
+    const newCursorPos = start + textToInsert.length + 4;
+    textarea.selectionStart = newCursorPos;
+    textarea.selectionEnd = newCursorPos;
+    
+    // Focus textarea and render
+    textarea.focus();
+    render();
+    
+    // Close dropdown
+    button.closest('.group-buttons').classList.add('hidden');
+    
+    // Show notification
+    showNotification('Composant inséré !');
+  });
+});
+
+// ============================================================================
+// TEMPLATE LOADING
+// ============================================================================
+
+// Load Site template
+document.getElementById('load-template-site')?.addEventListener('click', () => {
+  const siteTemplate = `# Bienvenue sur notre site
+
+/// callout | Nouvelle version disponible
+    color: blue-cumulus
+    icon: info-line
+    markup: h3
+    link_label: Télécharger maintenant
+    link_url: https://example.com/download
+    link_newtab: true
+Découvrez toutes les nouvelles fonctionnalités de notre dernière mise à jour !
+///
+
+## Nos services
+
+/// row | fr-grid-row--gutters
+/// col | 12 lg-4
+/// card | Service Premium
+    image: https://via.placeholder.com/400x250
+    target: /premium
+    badge: Populaire | yellow-tournesol
+    markup: h4
+Notre service le plus demandé avec toutes les fonctionnalités avancées.
+///
+///
+
+/// col | 12 lg-4
+/// card | Service Standard
+    image: https://via.placeholder.com/400x250
+    target: /standard
+    badge: Nouveau | green-menthe
+    markup: h4
+Le parfait équilibre entre fonctionnalités et prix.
+///
+///
+
+/// col | 12 lg-4
+/// card | Service Basic
+    image: https://via.placeholder.com/400x250
+    target: /basic
+    markup: h4
+Pour débuter en douceur avec l'essentiel.
+///
+///
+///
+
+## Questions fréquentes
+
+/// accordion | Comment ça fonctionne ?
+Notre service est simple à utiliser. Inscrivez-vous, configurez votre compte et commencez à utiliser toutes les fonctionnalités en quelques minutes.
+///
+
+/// accordion | Quels sont les tarifs ?
+    open: true
+Nous proposons plusieurs formules adaptées à vos besoins :
+- Basic : 9€/mois
+- Standard : 19€/mois
+- Premium : 29€/mois
+///
+
+/// accordion | Comment nous contacter ?
+Vous pouvez nous joindre par email à contact@example.com ou par téléphone au 01 23 45 67 89.
+///
+
+## Témoignages clients
+
+/// row | fr-grid-row--gutters
+/// col
+> "Un service exceptionnel ! Je recommande vivement."
+
+**Marie Dupont** - Directrice Marketing
+///
+
+/// col
+> "Exactement ce dont j'avais besoin. Équipe très réactive."
+
+**Jean Martin** - CEO
+///
+
+/// col
+> "Le meilleur choix que j'ai fait cette année."
+
+**Sophie Bernard** - Freelance
+///
+///
+
+/// alert | Offre limitée
+    type: warning
+    markup: h3
+🎁 Profitez de -20% sur tous nos services jusqu'au 31 décembre !
+///`;
+
+  textarea.value = siteTemplate;
+  template.value = 'site';
+  render();
+  showNotification('Template Site chargé !');
+});
+
+// Load Email template
+document.getElementById('load-template-email')?.addEventListener('click', () => {
+  const emailTemplate = `# Newsletter - Janvier 2026
+
+Bonjour,
+
+/// callout | Nouvelle fonctionnalité
+    color: green-menthe
+    icon: medal-fill
+    markup: h3
+Découvrez notre nouvel éditeur Markdown avec support DSFR complet !
+///
+
+## Les actualités du mois
+
+/// alert | Événement à venir
+    type: info
+    markup: h4
+Webinaire gratuit le 15 janvier à 14h : "Maîtriser le Markdown"
+///
+
+### Article 1 : Guide complet du Markdown
+
+/// card | Lire l'article
+    image: https://via.placeholder.com/600x300
+    target: https://example.com/article1
+    markup: h4
+Tout ce que vous devez savoir sur le Markdown pour créer du contenu professionnel.
+///
+
+### Article 2 : Les composants DSFR
+
+/// card | Découvrir
+    image: https://via.placeholder.com/600x300
+    target: https://example.com/article2
+    badge: Populaire | yellow-tournesol
+    markup: h4
+Un guide complet des composants du Design System de l'État Français.
+///
+
+## Nos badges de qualité
+
+/// badge
+    type: success
+    icon: true
+Certifié
+///
+
+/// badge
+    color: green-menthe
+100% Gratuit
+///
+
+/// badge
+    type: new
+Nouveau
+///
+
+---
+
+Cordialement,  
+**L'équipe Markdown PRO MAX**
+
+[Se désabonner](https://example.com/unsubscribe)`;
+
+  textarea.value = emailTemplate;
+  template.value = 'email';
+  render();
+  showNotification('Template Email chargé !');
+});
+
+// Load Slides template
+document.getElementById('load-template-slides')?.addEventListener('click', () => {
+  const slidesTemplate = `# Markdown PRO MAX
+
+## Présentation complète
+
+Par Votre Nom  
+Date : 2 février 2026
+
+---
+
+# Introduction
+
+/// callout | Objectif de la présentation
+    color: blue-cumulus
+    icon: info-line
+    markup: h3
+Découvrir tous les composants DSFR disponibles
+///
+
+**Au programme :**
+- Les alertes
+- Les callouts
+- Les grilles
+- Les cartes et tuiles
+
+---
+
+# Les Alertes
+
+/// alert | Information
+    type: info
+    markup: h3
+Les alertes permettent de mettre en avant des informations importantes.
+///
+
+/// alert | Succès
+    type: success
+Opération réussie !
+///
+
+/// alert | Attention
+    type: warning
+Point d'attention important.
+///
+
+---
+
+# Les Grilles
+
+/// row | fr-grid-row--gutters
+/// col
+**Colonne 1**
+
+Contenu de la première colonne avec du texte.
+///
+
+/// col
+**Colonne 2**
+
+Contenu de la deuxième colonne avec du texte.
+///
+///
+
+---
+
+# Les Cartes
+
+/// row | fr-grid-row--gutters
+/// col
+/// card | Service 1
+    image: https://via.placeholder.com/300x200
+    badge: Nouveau | green-menthe
+    markup: h4
+Description du service
+///
+///
+
+/// col
+/// card | Service 2
+    image: https://via.placeholder.com/300x200
+    badge: Populaire | yellow-tournesol
+    markup: h4
+Description du service
+///
+///
+///
+
+---
+
+# Les Badges
+
+Nos certifications :
+
+/// badge
+    type: success
+    icon: true
+Certifié
+///
+
+/// badge
+    color: green-menthe
+Écologique
+///
+
+/// badge
+    type: new
+Nouveau
+///
+
+---
+
+# Conclusion
+
+/// callout | Merci !
+    color: green-menthe
+    icon: medal-fill
+    markup: h2
+Des questions ?
+///
+
+**Contact :** contact@example.com
+
+---
+
+# Fin
+
+**Merci pour votre attention !**
+
+👏 Applaudissements`;
+
+  textarea.value = slidesTemplate;
+  template.value = 'slides';
+  currentSlide = 0;
+  render();
+  showNotification('Template Slides chargé !');
+});
+
 // Print styles
 const printStyles = document.createElement("style");
 printStyles.textContent = `

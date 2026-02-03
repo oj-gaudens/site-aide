@@ -8,16 +8,293 @@ jsFile: script.js
 
 <section class="intro">
   <h2>Bienvenue sur <span>Markdown PRO MAX</span></h2>
-  <p>Écrivez votre Markdown à gauche et voyez le rendu live à droite.</p>
+  <p>L'éditeur Markdown le plus complet avec tous les composants DSFR</p>
 
-  <label>
-    Choisir un template :
-    <select id="template-selector">
-      <option value="site">Site Web</option>
-      <option value="email">Email</option>
-      <option value="slides">Slides</option>
-    </select>
-  </label>
+  <div class="template-selector-wrapper">
+    <label>
+      <span class="label-icon">🎯</span> Choisir un template :
+      <select id="template-selector">
+        <option value="site">🌐 Site Web</option>
+        <option value="email">✉️ Email</option>
+        <option value="slides">📊 Slides</option>
+      </select>
+    </label>
+    
+    <button id="load-template-site" class="template-btn" title="Charger le template Site complet">
+      <span class="btn-icon">🌐</span> Charger Template Site
+    </button>
+    <button id="load-template-email" class="template-btn" title="Charger le template Email complet">
+      <span class="btn-icon">✉️</span> Charger Template Email
+    </button>
+    <button id="load-template-slides" class="template-btn" title="Charger le template Slides complet">
+      <span class="btn-icon">📊</span> Charger Template Slides
+    </button>
+  </div>
+</section>
+
+<!-- Barre d'outils DSFR ULTRA-COMPLÈTE -->
+<section class="dsfr-toolbar">
+  <div class="toolbar-header">
+    <h3><span class="toolbar-icon">🛠️</span> Insérer des composants</h3>
+    <div class="toolbar-actions">
+      <button id="expand-all" class="mini-btn" title="Tout ouvrir">⬇️ Tout ouvrir</button>
+      <button id="collapse-all" class="mini-btn" title="Tout fermer">⬆️ Tout fermer</button>
+    </div>
+  </div>
+  
+  <div class="toolbar-groups">
+    <!-- ========== MARKDOWN DE BASE ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">📝 Markdown de base ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Formatage texte</h4>
+          <button data-insert="**texte en gras**" title="Ctrl+B">✨ Gras</button>
+          <button data-insert="*texte en italique*" title="Ctrl+I">📐 Italique</button>
+          <button data-insert="~~texte barré~~">❌ Barré</button>
+          <button data-insert="`code inline`">💻 Code inline</button>
+          <button data-insert="==texte surligné==">🖍️ Surligné</button>
+        </div>
+        <div class="button-section">
+          <h4>Titres</h4>
+          <button data-insert="# ">📌 Titre H1</button>
+          <button data-insert="## ">📍 Titre H2</button>
+          <button data-insert="### ">📎 Titre H3</button>
+          <button data-insert="#### ">🔖 Titre H4</button>
+          <button data-insert="##### ">🏷️ Titre H5</button>
+          <button data-insert="###### ">🔹 Titre H6</button>
+        </div>
+        <div class="button-section">
+          <h4>Listes</h4>
+          <button data-insert="- ">📋 Liste simple</button>
+          <button data-insert="1. ">🔢 Liste numérotée</button>
+          <button data-insert="- [ ] ">☑️ Liste tâches</button>
+          <button data-insert="  - ">➡️ Sous-liste</button>
+        </div>
+        <div class="button-section">
+          <h4>Liens et médias</h4>
+          <button data-insert="[texte du lien](https://example.com)">🔗 Lien</button>
+          <button data-insert="[texte du lien](https://example.com 'Info-bulle')">🔗 Lien + tooltip</button>
+          <button data-insert="![description image](https://via.placeholder.com/800x400)">🖼️ Image</button>
+          <button data-insert="[![image cliquable](image.jpg)](https://example.com)">🎯 Image cliquable</button>
+        </div>
+        <div class="button-section">
+          <h4>Blocs</h4>
+          <button data-insert="> Citation importante">💬 Citation</button>
+          <button data-insert="```javascript\nconsole.log('Hello');\n```">📦 Bloc de code</button>
+          <button data-insert="---">➖ Ligne horizontale</button>
+        </div>
+        <div class="button-section">
+          <h4>Tableaux</h4>
+          <button data-insert="| Colonne 1 | Colonne 2 | Colonne 3 |\n| -------- | -------- | -------- |\n| Valeur 1 | Valeur 2 | Valeur 3 |">📊 Tableau 3 colonnes</button>
+          <button data-insert="| Col 1 | Col 2 |\n| ----- | ----- |\n| Val 1 | Val 2 |\n| Val 3 | Val 4 |">📋 Tableau 2x2</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ALERTES ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">🚨 Alertes ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Alertes standard</h4>
+          <button data-insert="/// alert | Information importante\n    type: info\n    markup: h4\nCeci est une information importante.\n///">ℹ️ Info</button>
+          <button data-insert="/// alert | Opération réussie\n    type: success\n    markup: h4\nL'opération a été effectuée avec succès !\n///">✅ Succès</button>
+          <button data-insert="/// alert | Attention requise\n    type: warning\n    markup: h4\nVeuillez faire attention à ce point.\n///">⚠️ Avertissement</button>
+          <button data-insert="/// alert | Erreur détectée\n    type: error\n    markup: h4\nUne erreur s'est produite.\n///">❌ Erreur</button>
+        </div>
+        <div class="button-section">
+          <h4>Alertes avec titres H3 (menu)</h4>
+          <button data-insert="/// alert | Point important\n    type: info\n    markup: h3\nCette alerte apparaîtra dans le menu latéral.\n///">📍 Alerte H3 Info</button>
+          <button data-insert="/// alert | Succès important\n    type: success\n    markup: h3\nAlerte de succès visible dans le menu.\n///">🎯 Alerte H3 Succès</button>
+        </div>
+        <div class="button-section">
+          <h4>Alertes simples (H5)</h4>
+          <button data-insert="/// alert | Note rapide\nC'est une alerte simple par défaut.\n///">📝 Alerte simple</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CALLOUTS ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">📢 Callouts (Mise en avant) ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Callouts simples</h4>
+          <button data-insert="/// callout | Point clé\n    markup: h3\nC'est une information à mettre en avant.\n///">📌 Callout simple</button>
+          <button data-insert="/// callout | Information importante\n    color: green-menthe\n    markup: h3\nMise en avant avec couleur verte.\n///">🟢 Callout vert</button>
+          <button data-insert="/// callout | À retenir\n    color: blue-cumulus\n    markup: h3\nMise en avant avec couleur bleue.\n///">🔵 Callout bleu</button>
+          <button data-insert="/// callout | Nouveauté\n    color: yellow-tournesol\n    markup: h3\nMise en avant avec couleur jaune.\n///">🟡 Callout jaune</button>
+        </div>
+        <div class="button-section">
+          <h4>Callouts avec icônes</h4>
+          <button data-insert="/// callout | Information\n    color: blue-cumulus\n    icon: info-line\n    markup: h3\nCallout avec icône d'information.\n///">ℹ️ Avec icône info</button>
+          <button data-insert="/// callout | Astuce\n    color: green-menthe\n    icon: lightbulb-line\n    markup: h3\nCallout avec icône ampoule.\n///">💡 Avec icône astuce</button>
+          <button data-insert="/// callout | Important\n    color: orange-terre-battue\n    icon: error-warning-line\n    markup: h3\nCallout avec icône attention.\n///">⚠️ Avec icône warning</button>
+        </div>
+        <div class="button-section">
+          <h4>Callouts avec bouton</h4>
+          <button data-insert="/// callout | Découvrez plus\n    color: green-menthe\n    icon: medal-fill\n    link_label: En savoir plus\n    link_url: https://www.example.com/\n    link_newtab: true\n    markup: h4\nCallout avec un bouton cliquable.\n///">🔘 Avec bouton simple</button>
+          <button data-insert="/// callout | Documentation complète\n    color: blue-cumulus\n    icon: book-2-fill\n    link_label: Consulter la documentation\n    link_url: https://docs.example.com/\n    link_newtab: true\n    markup: h3\nAccédez à toute la documentation.\n///">📚 Avec bouton docs</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== BADGES ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">🏷️ Badges ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Badges par type</h4>
+          <button data-insert="/// badge\nBadge par défaut\n///">⚪ Badge défaut</button>
+          <button data-insert="/// badge\n    type: success\n    icon: true\nValidé\n///">✅ Badge succès</button>
+          <button data-insert="/// badge\n    type: error\n    icon: false\nErreur\n///">❌ Badge erreur</button>
+          <button data-insert="/// badge\n    type: info\n    icon: true\nInformation\n///">ℹ️ Badge info</button>
+          <button data-insert="/// badge\n    type: warning\n    icon: true\nAttention\n///">⚠️ Badge warning</button>
+          <button data-insert="/// badge\n    type: new\n    icon: true\nNouveauté\n///">🆕 Badge nouveau</button>
+        </div>
+        <div class="button-section">
+          <h4>Badges par couleur</h4>
+          <button data-insert="/// badge\n    color: green-menthe\nVert menthe\n///">🟢 Vert menthe</button>
+          <button data-insert="/// badge\n    color: green-tilleul-verveine\nVert tilleul\n///">🌿 Vert tilleul</button>
+          <button data-insert="/// badge\n    color: green-bourgeon\nVert bourgeon\n///">🌱 Vert bourgeon</button>
+          <button data-insert="/// badge\n    color: green-emeraude\nVert émeraude\n///">💚 Vert émeraude</button>
+          <button data-insert="/// badge\n    color: green-archipel\nVert archipel\n///">🏝️ Vert archipel</button>
+          <button data-insert="/// badge\n    color: blue-ecume\nBleu écume\n///">🔵 Bleu écume</button>
+          <button data-insert="/// badge\n    color: blue-cumulus\nBleu cumulus\n///">☁️ Bleu cumulus</button>
+          <button data-insert="/// badge\n    color: purple-glycine\nViolet glycine\n///">🟣 Violet glycine</button>
+          <button data-insert="/// badge\n    color: pink-macaron\nRose macaron\n///">🩷 Rose macaron</button>
+          <button data-insert="/// badge\n    color: pink-tuile\nRose tuile\n///">🧡 Rose tuile</button>
+          <button data-insert="/// badge\n    color: yellow-tournesol\nJaune tournesol\n///">🌻 Jaune tournesol</button>
+          <button data-insert="/// badge\n    color: yellow-moutarde\nJaune moutarde\n///">🟡 Jaune moutarde</button>
+          <button data-insert="/// badge\n    color: orange-terre-battue\nOrange terre battue\n///">🟠 Orange</button>
+          <button data-insert="/// badge\n    color: brown-cafe-creme\nBrun café crème\n///">🤎 Brun café</button>
+          <button data-insert="/// badge\n    color: brown-caramel\nBrun caramel\n///">🍫 Brun caramel</button>
+          <button data-insert="/// badge\n    color: brown-opera\nBrun opéra\n///">🎭 Brun opéra</button>
+          <button data-insert="/// badge\n    color: beige-gris-galet\nBeige gris galet\n///">⚫ Beige gris</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== ACCORDÉONS ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">📋 Accordéons ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Accordéons standards</h4>
+          <button data-insert="/// accordion | Question 1\nRéponse à la première question.\n///">❓ Accordéon fermé</button>
+          <button data-insert="/// accordion | Question ouverte\n    open: true\nCette réponse est visible par défaut.\n///">📖 Accordéon ouvert</button>
+        </div>
+        <div class="button-section">
+          <h4>FAQ complète</h4>
+          <button data-insert="/// accordion | Comment ça fonctionne ?\nVoici l'explication détaillée du fonctionnement.\n///\n\n/// accordion | C'est gratuit ?\nOui, c'est totalement gratuit.\n///\n\n/// accordion | Comment nous contacter ?\nVous pouvez nous contacter par email.\n///">❓ FAQ 3 questions</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== GRILLES ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">📐 Grilles & Colonnes ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Grilles simples</h4>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col\nColonne 1 (50%)\n///\n/// col\nColonne 2 (50%)\n///\n///">⬛⬛ 2 colonnes égales</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-4\nColonne 1 (33%)\n///\n/// col | 12 lg-4\nColonne 2 (33%)\n///\n/// col | 12 lg-4\nColonne 3 (33%)\n///\n///">⬛⬛⬛ 3 colonnes égales</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-3\nCol 1\n///\n/// col | 12 lg-3\nCol 2\n///\n/// col | 12 lg-3\nCol 3\n///\n/// col | 12 lg-3\nCol 4\n///\n///">⬛⬛⬛⬛ 4 colonnes</button>
+        </div>
+        <div class="button-section">
+          <h4>Grilles asymétriques</h4>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-8\nGrande colonne (66%)\n///\n/// col | 12 lg-4\nPetite colonne (33%)\n///\n///">⬛⬛ 8/4 (66/33)</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-9\nTrès grande (75%)\n///\n/// col | 12 lg-3\nPetite (25%)\n///\n///">⬛⬜ 9/3 (75/25)</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-6\nMoyenne (50%)\n///\n/// col | 12 lg-3\nPetite (25%)\n///\n/// col | 12 lg-3\nPetite (25%)\n///\n///">⬛⬜⬜ 6/3/3</button>
+        </div>
+        <div class="button-section">
+          <h4>Grilles avec alignement</h4>
+          <button data-insert="/// row | fr-grid-row--gutters\n    valign: top\n/// col\nContenu aligné en haut\n///\n/// col\nAutre contenu\n///\n///">⬆️ Alignement haut</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n    halign: center\n    valign: middle\n/// col\nContenu centré\n///\n///\n///">⏺️ Centré</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== CARTES ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">🎴 Cartes ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Cartes simples</h4>
+          <button data-insert="/// card | Titre de la carte\n    image: https://via.placeholder.com/400x250\n    target: https://example.com\n    markup: h4\nDescription de la carte avec du contenu intéressant.\n///">🎴 Carte basique</button>
+          <button data-insert="/// card | Carte avec sous-titre\n    description: Sous-titre ou description courte\n    image: https://via.placeholder.com/400x250\n    target: https://example.com\n    markup: h4\nContenu principal de la carte.\n///">📝 Carte + description</button>
+          <button data-insert="/// card | Carte avec badge\n    image: https://via.placeholder.com/400x250\n    target: https://example.com\n    badge: Nouveau | green-menthe\n    markup: h4\nCarte mise en avant avec un badge.\n///">🏷️ Carte + badge</button>
+        </div>
+        <div class="button-section">
+          <h4>Cartes horizontales</h4>
+          <button data-insert="/// card | Carte horizontale 50%\n    image: https://via.placeholder.com/400x250\n    target: https://example.com\n    horizontal: true\n    horizontal_pos: half\n    markup: h4\nCarte avec image à 50% de largeur.\n///">↔️ Horizontale 50%</button>
+          <button data-insert="/// card | Carte horizontale 33%\n    image: https://via.placeholder.com/400x250\n    target: https://example.com\n    horizontal: true\n    horizontal_pos: tier\n    markup: h4\nCarte avec image à 33% de largeur.\n///">↔️ Horizontale 33%</button>
+        </div>
+        <div class="button-section">
+          <h4>Cartes spéciales</h4>
+          <button data-insert="/// card | Téléchargement\n    image: https://via.placeholder.com/400x250\n    target: /fichier.pdf\n    download: true\n    assess: true\n    markup: h4\n///">💾 Carte téléchargement</button>
+          <button data-insert="/// card | Sans bordure\n    image: https://via.placeholder.com/400x250\n    target: https://example.com\n    variations: no-border,shadow\n    markup: h4\nCarte sans bordure avec ombre.\n///">🎨 Carte sans bordure</button>
+        </div>
+        <div class="button-section">
+          <h4>Grilles de cartes</h4>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col\n/// card | Carte 1\n    image: https://via.placeholder.com/400x250\n    target: /page1\n    markup: h4\nDescription carte 1\n///\n///\n/// col\n/// card | Carte 2\n    image: https://via.placeholder.com/400x250\n    target: /page2\n    markup: h4\nDescription carte 2\n///\n///\n///\n">🎴🎴 2 cartes</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-4\n/// card | Carte 1\n    image: https://via.placeholder.com/400x250\n    target: /page1\n    badge: Nouveau | green-menthe\n    markup: h4\nDescription 1\n///\n///\n/// col | 12 lg-4\n/// card | Carte 2\n    image: https://via.placeholder.com/400x250\n    target: /page2\n    badge: Populaire | yellow-tournesol\n    markup: h4\nDescription 2\n///\n///\n/// col | 12 lg-4\n/// card | Carte 3\n    image: https://via.placeholder.com/400x250\n    target: /page3\n    markup: h4\nDescription 3\n///\n///\n///\n">🎴🎴🎴 3 cartes</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-3\n/// card | Carte 1\n    image: https://via.placeholder.com/400x250\n    target: /1\n    markup: h5\nDesc 1\n///\n///\n/// col | 12 lg-3\n/// card | Carte 2\n    image: https://via.placeholder.com/400x250\n    target: /2\n    markup: h5\nDesc 2\n///\n///\n/// col | 12 lg-3\n/// card | Carte 3\n    image: https://via.placeholder.com/400x250\n    target: /3\n    markup: h5\nDesc 3\n///\n///\n/// col | 12 lg-3\n/// card | Carte 4\n    image: https://via.placeholder.com/400x250\n    target: /4\n    markup: h5\nDesc 4\n///\n///\n///\n">🎴🎴🎴🎴 4 cartes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== TUILES ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">🎯 Tuiles ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Tuiles simples</h4>
+          <button data-insert="/// tile | Titre de la tuile\n    picto: digital/application\n    target: https://example.com\n    markup: h4\nDescription succincte de la tuile.\n///">🎯 Tuile basique</button>
+          <button data-insert="/// tile | Tuile avec sous-titre\n    description: Sous-titre de la tuile\n    picto: digital/internet\n    target: https://example.com\n    markup: h4\nDescription de la tuile.\n///">📝 Tuile + description</button>
+          <button data-insert="/// tile | Tuile avec badge\n    picto: health/health\n    target: https://example.com\n    badge: Nouveau | green-menthe\n    markup: h4\nTuile avec badge.\n///">🏷️ Tuile + badge</button>
+        </div>
+        <div class="button-section">
+          <h4>Pictogrammes disponibles</h4>
+          <button data-insert="/// tile | Application\n    picto: digital/application\n    target: /app\n    markup: h4\nApplication numérique\n///">💻 Digital/Application</button>
+          <button data-insert="/// tile | Internet\n    picto: digital/internet\n    target: /web\n    markup: h4\nServices internet\n///">🌐 Digital/Internet</button>
+          <button data-insert="/// tile | Environnement\n    picto: environment/leaf\n    target: /eco\n    markup: h4\nÉcologie\n///">🌿 Environment/Leaf</button>
+          <button data-insert="/// tile | Alimentation\n    picto: environment/food\n    target: /food\n    markup: h4\nAlimentation\n///">🍽️ Environment/Food</button>
+          <button data-insert="/// tile | Santé\n    picto: health/health\n    target: /health\n    markup: h4\nSanté\n///">🏥 Health/Health</button>
+          <button data-insert="/// tile | Pompiers\n    picto: institutions/firefighter\n    target: /pompiers\n    markup: h4\nPompiers\n///">🚒 Institutions/Firefighter</button>
+          <button data-insert="/// tile | Succès\n    picto: system/success\n    target: /success\n    markup: h4\nValidation\n///">✅ System/Success</button>
+        </div>
+        <div class="button-section">
+          <h4>Tuiles horizontales</h4>
+          <button data-insert="/// tile | Tuile horizontale\n    picto: system/success\n    target: https://example.com\n    horizontal: true\n    markup: h4\nTuile en mode horizontal.\n///">↔️ Tuile horizontale</button>
+        </div>
+        <div class="button-section">
+          <h4>Grilles de tuiles</h4>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col\n/// tile | Tuile 1\n    picto: digital/application\n    target: /1\n    markup: h4\nDescription 1\n///\n///\n/// col\n/// tile | Tuile 2\n    picto: environment/leaf\n    target: /2\n    markup: h4\nDescription 2\n///\n///\n///\n">🎯🎯 2 tuiles</button>
+          <button data-insert="/// row | fr-grid-row--gutters\n/// col | 12 lg-4\n/// tile | Tuile 1\n    picto: digital/application\n    target: /1\n    badge: Nouveau | green-menthe\n    markup: h4\nDescription 1\n///\n///\n/// col | 12 lg-4\n/// tile | Tuile 2\n    picto: health/health\n    target: /2\n    badge: Populaire | yellow-tournesol\n    markup: h4\nDescription 2\n///\n///\n/// col | 12 lg-4\n/// tile | Tuile 3\n    picto: system/success\n    target: /3\n    markup: h4\nDescription 3\n///\n///\n///\n">🎯🎯🎯 3 tuiles</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== EXEMPLES COMPLETS ========== -->
+    <div class="toolbar-group">
+      <button class="group-toggle">🎨 Exemples complets ▼</button>
+      <div class="group-buttons hidden">
+        <div class="button-section">
+          <h4>Pages complètes</h4>
+          <button data-insert="# Bienvenue\n\n/// callout | Nouvelle version\n    color: blue-cumulus\n    icon: info-line\n    markup: h3\n    link_label: Télécharger\n    link_url: /download\nMise à jour majeure disponible !\n///\n\n## Nos services\n\n/// row | fr-grid-row--gutters\n/// col | 12 lg-4\n/// card | Service 1\n    image: https://via.placeholder.com/400x250\n    target: /service1\n    badge: Nouveau | green-menthe\n    markup: h4\nDescription service 1\n///\n///\n/// col | 12 lg-4\n/// card | Service 2\n    image: https://via.placeholder.com/400x250\n    target: /service2\n    markup: h4\nDescription service 2\n///\n///\n/// col | 12 lg-4\n/// card | Service 3\n    image: https://via.placeholder.com/400x250\n    target: /service3\n    markup: h4\nDescription service 3\n///\n///\n///\n">🌐 Page d'accueil</button>
+          <button data-insert="# FAQ - Questions fréquentes\n\n/// accordion | Comment ça fonctionne ?\nVoici l'explication complète du fonctionnement.\n///\n\n/// accordion | C'est gratuit ?\n    open: true\nOui, notre service est entièrement gratuit.\n///\n\n/// accordion | Comment nous contacter ?\nVous pouvez nous contacter par email à contact@example.com\n///\n">❓ Page FAQ</button>
+          <button data-insert="# Nos produits\n\n/// row | fr-grid-row--gutters\n/// col | 12 lg-3\n/// tile | Produit 1\n    picto: digital/application\n    target: /produit1\n    badge: Nouveau | green-menthe\n    markup: h4\nDécouvrez notre nouveau produit\n///\n///\n/// col | 12 lg-3\n/// tile | Produit 2\n    picto: health/health\n    target: /produit2\n    badge: Populaire | yellow-tournesol\n    markup: h4\nNotre produit le plus vendu\n///\n///\n/// col | 12 lg-3\n/// tile | Produit 3\n    picto: environment/leaf\n    target: /produit3\n    markup: h4\nÉco-responsable\n///\n///\n/// col | 12 lg-3\n/// tile | Produit 4\n    picto: system/success\n    target: /produit4\n    markup: h4\nQualité garantie\n///\n///\n///\n">🛍️ Page produits</button>
+        </div>
+        <div class="button-section">
+          <h4>Sections complexes</h4>
+          <button data-insert="## Fonctionnalités principales\n\n/// row | fr-grid-row--gutters\n/// col | 12 lg-8\n### Description détaillée\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\n/// alert | Point important\n    type: info\nCette fonctionnalité est essentielle.\n///\n///\n/// col | 12 lg-4\n### Points clés\n\n- Point 1\n- Point 2\n- Point 3\n\n/// badge\n    type: success\n    icon: true\nValidé\n///\n///\n///\n">📊 Section avec sidebar</button>
+          <button data-insert="## Témoignages\n\n/// row | fr-grid-row--gutters\n/// col\n/// card | Client 1\n    image: https://via.placeholder.com/100x100\n    markup: h4\n> \"Excellent service, je recommande vivement !\"\n\n**Jean Dupont** - Directeur\n///\n///\n/// col\n/// card | Client 2\n    image: https://via.placeholder.com/100x100\n    markup: h4\n> \"Une expérience formidable du début à la fin.\"\n\n**Marie Martin** - CEO\n///\n///\n/// col\n/// card | Client 3\n    image: https://via.placeholder.com/100x100\n    markup: h4\n> \"Je suis très satisfait du résultat obtenu.\"\n\n**Pierre Bernard** - Manager\n///\n///\n///\n">💬 Section témoignages</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section class="editor">
