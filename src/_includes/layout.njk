@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="{{ siteDescription or 'Créez vos sites, emails et slides rapidement avec Markdown PRO MAX' }}">
   
-  <!-- ✅ CORRECTION : Utiliser le filtre | url pour le pathPrefix -->
+  <!-- ✅ AJOUTER | url ICI -->
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | url }}">
   
   <!-- Librairie Markdown preview -->
@@ -24,9 +24,9 @@
   <p>&copy; 2026 Markdown PRO MAX – Créé avec Eleventy</p>
 </footer>
 
-<!-- ✅ CORRECTION : Utiliser le filtre | url pour le pathPrefix -->
+<!-- ✅ AJOUTER | url ICI AUSSI -->
 {% if jsFile %}
-<script src="{{ '/js/' | url }}{{ jsFile }}"></script>
+<script src="{{ ('/js/' + jsFile) | url }}"></script>
 {% endif %}
 </body>
 </html>
