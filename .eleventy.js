@@ -12,7 +12,7 @@ module.exports = function(eleventyConfig) {
   });
   
   return {
-    pathPrefix: isProd ? "/oj_gaudens/" : "/",  // ⬅️ Vérifiez le nom exact de votre repo
+    pathPrefix: isProd ? "/site-aide/" : "/",
     dir: {
       input: "src",
       output: "docs",
