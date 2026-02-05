@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === "production";
+
 module.exports = function(eleventyConfig) {
   // Copier les assets statiques
   eleventyConfig.addPassthroughCopy("src/assets");
@@ -8,8 +10,9 @@ module.exports = function(eleventyConfig) {
     const markdownIt = require("markdown-it")();
     return markdownIt.render(content);
   });
-
+  
   return {
+    pathPrefix: isProd ? "/oj_gaudens/" : "/",  // ⬅️ Vérifiez le nom exact de votre repo
     dir: {
       input: "src",
       output: "docs",
